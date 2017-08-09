@@ -1,0 +1,102 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+    <style>
+        .wrap{
+            width: 200px;
+            height: 400px;
+            margin: 0 auto;
+        }
+        .wrap button{
+            width: 100%;
+            height: 40px;
+
+        }
+        .wrap div{
+            width: 100%;
+            height: 160px;
+            background: red;
+        }
+    </style>
+</head>
+<body>
+
+<div class="wrap">
+    <button>点击运动</button>
+    <div></div>
+</div>
+
+<script src="../js/jquery-1.11.1.js"></script>
+<script>
+    /*
+    * hide(); show();
+    * slideUp(); slideDown();
+    * slideToggle();
+    * toggle();
+    * fadeOut();
+    * fadeIn();
+    * fadeToggle();
+    * 开启动画后，一定要先关闭定时器stop();
+    * 运动的方法都要回调方法
+    *
+    * */
+
+
+    var bOk=true;
+   /* $('button').click(function(){
+       /!* if(bOk){
+
+            $('.wrap div').stop().slideUp();
+        }else{
+            $('.wrap div').stop().slideDown();
+        }
+        bOk=!bOk;*!/
+
+//       $('.wrap div').stop().fadeToggle();
+    });*/
+
+   $('button').click(function(){
+       $('.wrap div').animate({
+           height:0
+       },2000,'linear',function(){
+
+       }); //运动形式可以忽略
+   });
+
+   //animate(target,time,effect,callback);
+   //开启运动之前先停止运动
+
+    /*
+    * ajax({
+    * type:'get/post';
+    * url:'xxx?'+Math.random()*1000+new Date().getTime();
+    * async:true/false, 是否同步异步 true同步，false异步，同步可以省略不写
+    * dataType:'json',解决JSON.parse()的问题
+    * success:function(){};成功之后的回调
+    * error:function(){}失败之后的回调
+    * data:$('form').serialize()表单序列化，把前端要传给后台的数据，以k=v,k=v的形式拼成字符串
+    *
+    *
+    *
+    * })
+    *
+    *
+    *
+    * */
+
+
+
+
+
+
+
+
+</script>
+
+
+
+
+</body>
+</html>

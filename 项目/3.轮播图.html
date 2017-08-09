@@ -1,0 +1,228 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+    <style>
+        *{
+            margin: 0;
+            padding: 0;
+            list-style: none;
+            border:none;
+        }
+        .wrap{
+            width: 1000px;
+            height: 340px;
+            margin: 30px auto;
+            position: relative;
+            background:url("img/default.gif") center no-repeat #ccc;
+        }
+
+        .wrap  img{
+            position: absolute;
+            left: 0;
+            top: 0;
+            width: 100%;
+            height: 100%;
+            border:none;
+
+            display: none;
+            z-index: 0;
+        }
+
+
+        .wrap ul{
+            position: absolute;
+            right: 30px;
+            bottom: 30px;
+            z-index: 1;
+        }
+
+        .wrap ul li{
+            width: 20px;
+            height: 20px;
+            float: left;
+            margin-left:10px;
+            background:#ccc;
+            border-radius: 50%;
+        }
+        .wrap ul li.active{
+            background:red;
+        }
+
+        .wrap a{
+            position: absolute;
+            top: 50%;
+            width: 30px;
+            height: 46px;
+            margin-top:-23px;
+            background-image: url("img/pre.png");
+            background-repeat: no-repeat;
+            opacity:.5;
+            z-index: 10;
+            display: none;
+        }
+        .wrap a:hover{
+            opacity:1;
+        }
+
+        .wrap a.left{
+            left: 30px;
+            background-position: 0 0;
+        }
+        .wrap a.right{
+            right: 30px;
+            background-position: -50px 0;
+        }
+
+    </style>
+</head>
+<body>
+
+<div class="wrap">
+    <div class="boxInner">
+       <!-- <img src="" imgSrc="img/banner1.jpg" alt="">
+        <img src="" imgSrc="img/banner2.jpg" alt="">
+        <img src="" imgSrc="img/banner3.jpg" alt="">
+        <img src="" imgSrc="img/banner4.jpg" alt="">-->
+    </div>
+    <ul>
+        <!--<li class="active"></li>-->
+        <!--<li></li>-->
+        <!--<li></li>-->
+        <!--<li></li>-->
+    </ul>
+
+    <a class="left" href="javascript:;"></a>
+    <a class="right" href="javascript:;"></a>
+</div>
+<script src="../js/jquery-1.11.1.js"></script>
+<script>
+    var wrap=$(".wrap");
+    var boxInner=$('.boxInner');
+    var aImg=null;
+    var ul=wrap.find('ul');
+    var aLi=null;
+    var step=0;
+    var $left=wrap.find('.left');
+    var $right=wrap.find('.right');
+
+    var data=null;
+    //1.获取数据
+
+    getData();
+    function getData(){
+        $.ajax({
+            url:'json/data.txt',
+            type:'get',
+            async:false,//同步
+            dataType:'json',
+            success:function(val){
+                data=val;
+            }
+        })
+    }
+
+    //绑定数据
+    bind();
+    function bind(){
+        var str='';
+        var strLi='';
+        $.each(data,function(index,item){
+            str+='<img src="" imgSrc="'+item.imgSrc+'" alt="">';
+            strLi+=index===0?'<li class="active"></li>':'<li></li>';
+        });
+        boxInner.html(str);
+        ul.html(strLi);
+        aImg=boxInner.children('img');
+        aLi=ul.children('li');
+    }
+
+    //图片的延迟加载 $each既可以遍历原生也可以遍历jQuery对此
+    lazyImg();
+    function lazyImg(){//item是原生的js对象
+        $.each(aImg,function(index,item){
+            var tempImg=new Image;
+            tempImg.src=$(item).attr('imgSrc');
+            tempImg.onload=function(){
+                item.src=this.src;
+                aImg.first().stop().fadeIn(1500).css('zIndex',1);
+                tempImg=null;
+            }
+        });
+    }
+
+    //图片自动轮播
+    clearInterval(timer);
+    var timer=setInterval(autoMove,2000);
+    function autoMove(){
+        step++;
+        step%=aImg.length;
+        setBanner();
+    }
+    function setBanner(){
+        aImg.eq(step).css({zIndex:1}).fadeIn(1500).siblings().css('zIndex',0).fadeOut(1500);
+        bannerTip();
+    }
+    //焦点对齐
+    function bannerTip(){
+        aLi.eq(step).addClass('active').siblings().removeClass('active');
+    }
+    //鼠标移入停止，移出继续运动
+    wrap.mouseover(function(){
+        $left.show();
+        $right.show();
+        clearInterval(timer);
+    }).mouseout(function(){
+        $left.hide();
+        $right.hide();
+        timer=setInterval(autoMove,2000);
+    });
+
+    //点击焦点手动切换
+    aLi.click(function(index,item){
+        step=$(this).index();
+        setBanner();
+    });
+
+    //点击左右按钮手动切换
+    $right.click(function(){
+        autoMove();
+    });
+
+    $left.click(function(){
+        step--;
+        step%=aImg.length;
+        setBanner();
+    })
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+</script>
+
+
+
+
+
+
+
+
+
+</body>
+</html>

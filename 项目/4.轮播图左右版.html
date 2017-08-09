@@ -1,0 +1,240 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            list-style: none;
+            text-decoration: none;
+        }
+
+        .wrap {
+            width: 1000px;
+            height: 300px;
+            position: relative;
+            margin: 20px auto;
+            overflow: hidden;
+        }
+
+        .wrap .boxInner {
+            width: 100%;
+            height: 100%;
+            position: absolute;
+            left: 0;
+            top: 0;
+        }
+
+        .wrap img {
+            width: 1000px;
+            height: 300px;
+            float: left;
+            background: url("img/default.gif") center center no-repeat #e1e1e1;
+        }
+
+        .wrap ul {
+            position: absolute;
+            bottom: 20px;
+            right: 20px;
+        }
+
+        .wrap ul li {
+            width: 18px;
+            height: 18px;
+            background: #ccc;
+            float: left;
+            margin-left: 10px;
+            border-radius: 50%;
+            cursor: pointer;
+        }
+
+        .wrap ul li.active {
+            background: lightblue;
+        }
+
+        .wrap a {
+            width: 30px;
+            height: 46px;
+            background-image: url("img/pre.png");
+            background-repeat: no-repeat;
+            position: absolute;
+            top: 50%;
+            margin-top:-23px;
+            opacity: 0.5;
+            filter: 'alpha(opacity=50)';
+            display: none;
+        }
+
+        .wrap a:hover {
+            opacity: 1;
+            filter: 'alpha(opacity=100)'
+        }
+
+        .wrap a.left {
+            background-position: 0 0;
+            left: 30px;
+        }
+
+        .wrap a.right {
+            background-position: -50px 0;
+            right: 30px;
+        }
+    </style>
+</head>
+<body>
+<div class="wrap">
+    <div class="boxInner">
+        <!-- <img src="" imgSrc="img/banner1.jpg" alt="">
+         <img src="" imgSrc="img/banner2.jpg" alt="">
+         <img src="" imgSrc="img/banner3.jpg" alt="">
+         <img src="" imgSrc="img/banner4.jpg" alt="">-->
+    </div>
+    <ul>
+        <!--<li class="active"></li>-->
+        <!--<li></li>-->
+        <!--<li></li>-->
+        <!--<li></li>-->
+    </ul>
+
+    <a class="left" href="javascript:;"></a>
+    <a class="right" href="javascript:;"></a>
+</div>
+<script src="../js/jquery-1.11.1.js"></script>
+<script>
+    var $wrap = $('.wrap');
+    var $boxInner = $('.boxInner');
+    var $ul = $wrap.find('ul');
+    var $aImg = null;
+    var $aLi = null;
+    var $left = $wrap.find('.left');
+    var $right = $wrap.find('right');
+    var data = null;
+    var step = 0;
+    var timer = null;
+
+    getDate();
+    function getDate() {
+        $.ajax({
+            url: 'json/data.txt',
+            type: 'get',
+            async: false,
+            dataType: 'json',
+            success: function (val) {
+                data = val;
+            }
+        });
+    }
+
+    //数据绑定
+    bind();
+    function bind() {
+        var str = '';
+        var strLi = '';
+        $.each(data, function (index, item) {
+            str += '<img src="" imgSrc="' + item.imgSrc + '" alt="">';
+            strLi += index === 0 ? '<li class="active"></li>' : '<li></li>';
+        });
+        str += '<img src="" imgSrc="' + data[0].imgSrc + '" alt="">';
+        $boxInner.html(str);
+        $ul.html(strLi);
+        $aImg = $wrap.find('img');
+        $aLi = $wrap.find('li');
+
+        $boxInner.css({width: $aImg.length * 1000});
+
+    }
+
+    //数据加载
+    lazyImg();
+    function lazyImg() {
+        $aImg.each(function (index, item) {
+            var tempImg = new Image;
+            tempImg.src = $(item).attr('imgSrc');
+            tempImg.onload = function () {
+                item.src = this.src;
+                tempImg = null;
+            }
+        });
+    }
+
+    clearInterval(timer);
+    timer = window.setInterval(autoMove, 3000);
+
+    //自动轮播
+    function autoMove() {
+        if (step >= $aImg.length - 1) {
+            step = 0;
+            $boxInner.css('left', step);
+        }
+        step++;
+        $boxInner.animate({
+            left: -step * 1000
+        });
+        bannerTip();
+    }
+
+    //焦点自动轮播
+    function bannerTip(){
+        $aLi.eq(step%$aLi.length).addClass('active').siblings().removeClass('active');
+    }
+
+
+    //移入停止，移动出来继续
+    $wrap.mouseover(function(){
+        $left.show();
+        $right.show();
+        clearInterval(timer);
+    }).mouseout(function(){
+        $left.hide();
+        $right.hide();
+        timer=setInterval(autoMove,2000);
+    });
+
+    //点击焦点切换
+    $aLi.click(function(){
+        step=$(this).index();
+        $boxInner.animate({
+            left:-step*1000
+        });
+        bannerTip();
+    });
+
+    //点击按钮切换
+    $right.click(function(){
+        autoMove();
+    });
+
+    $left.click(function(){
+
+        if(step<=0){
+            step=$aLi.length;
+            $boxInner.css('left',-step*1000);
+        }
+        step--;
+        $boxInner.animate({
+            left:-step*1000
+        });
+        bannerTip();
+
+
+    })
+
+
+
+
+
+
+
+
+
+
+
+
+
+</script>
+
+
+</body>
+</html>

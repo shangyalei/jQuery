@@ -1,0 +1,53 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+    <style>
+        *{
+            margin: 0;
+            padding: 0;
+        }
+        #div1{
+            width: 200px;
+            height: 200px;
+            background-color: red;
+            overflow: hidden;
+            margin: 20px;
+        }
+        #div2{
+            width: 100px;
+            height: 100px;
+            background-color: yellow;
+            margin: 30px;
+        }
+
+    </style>
+</head>
+<body>
+
+
+<div id="div1">
+    <div id="div2"></div>
+</div>
+
+<script src="../js/jquery-1.11.1.js"></script>
+
+<script>
+    //到屏幕的左距离，不论它有没有定位
+
+    alert($('#div1').offset().left);
+
+    //parent()获取父级
+    //offsetParent()获取有定位的父级
+
+
+
+
+
+</script>
+
+
+
+</body>
+</html>

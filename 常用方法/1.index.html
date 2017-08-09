@@ -1,0 +1,157 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+</head>
+<body>
+
+
+添加类名：addClass()
+删除类名：removeClass()
+高:height()  CSS样式中的不带单位的高的值
+宽:width()   CSS样式中的不带单位的宽的值
+不带border的宽度：innerWidth()  不带单位 width + padding
+带border的宽度：outerWidth  不带单位  width+padding+border
+insertBefore()  添加指定节点的前面
+before()
+insertAfter()
+after()
+appendTo() 添加到指定节点的后面
+append()
+
+删除节点 remove()
+on()  添加事件
+off() 删除事件
+scrollTop() 滚动距离  $(window).scrollTop();
+
+ev：事件对象
+pageX:鼠标的坐标
+which：键盘的键值
+preventDefault
+stopPropagation
+one()
+offset()
+position()
+offsetParent()
+val()   如果元素有value指定的情况下，获取value值
+size()  获取一组元素长度的方法
+each()  jQuery的循环  参数1下标，参数2：当前元素
+hover() 模拟CSS中的hover效果 鼠标移入和移出的效果结合
+show()  显示 参数是一个时间，通过多长时间显示出来
+hide()  隐藏 参数也是一个时间，通过多长时间隐藏
+fadeIn() 淡入 参数也是一个时间
+fadeOut() 淡出 参数也是一个时间 默认是400
+fadeTo() 参数1是一个时间，参数2是一个透明度的值
+slideDown() 向下展开 参数也是一个时间
+slideUp() 向上卷起
+
+get(): 有length属性
+转化为DOM对象 get(0) 也可以[i]
+若是一组元素，则转为一组原生的元素集合
+outerWidth(); 参数为true则包含margin值
+offsetWidth,获取不到隐藏元素的值，outerWidth可以获取到
+text() 获取文本内容，不会获取到标签，会获取一组元素的内容
+html();可以获取标签
+
+remove()删除一个节点，它的返回值就是删除的元素，这个元素的之前的所有的操作都没有了
+detach()删除一个节点，它会保留这个元素之前的所有操作行为
+
+$();与window.onload点的区别
+window.onload等所有的资源加载完毕才执行
+$(function(){})等待DOM加载完毕就可以执行，所以比原生的加载的要快
+利用原生的DOMContentLoaded事件
+
+两种方法相同
+$(document).ready(function(){});
+$(function(){})
+
+
+parents()  获取当前元素的所有得祖先节点，参数就是筛选功能 筛选出想要的
+closet()   获取当前元素的最近的祖先节点(包括当前元素自身)，它必须要写筛选的参数，只能找到一个元素
+siblings() 获取当前元素所有的兄弟节点，参数也是筛选功能
+nextAll()  获取所有的地弟弟节点 next()下一个弟弟节点 有参数可以进行筛选
+prevAll()  获取所有的哥哥节点，prev()上一个哥哥节点
+parentsUntil()  祖先元素截止
+nextUntil()  向下截止到指定位置
+prevUntil()  向上截止
+clone()  克隆节点，其实就是复制节点，参数true，作用是可以复制之前的操作行为
+wrap()   在外面套一层 注意它的参数包的是一个标签wrap("<div>");
+wrapAll() 整体包装 所有的span都包在div里面，注意会改变DOM结构
+wrapInner() 内部包装
+unwrap()  删除包装或删除父级(不包含body元素)
+add()  追加元素
+slice()  跟数组中的slice方法是一个样的，截取元素的范围
+serialize() 表单提交的时候，格式化成URL格式
+serializeArray();格式化成数组
+
+
+运动
+    animate()
+    参数1：{}目标值target
+    参数2 duration 默认是400
+    参数3 effect 它只要两种运动形式 swing(默认 慢快慢) linear(匀速)
+    参数4 callback回调函数
+    stop() 停止运动，默认只会阻止当前运动
+    参数1true，阻止后续的运动
+    参数2:true,立即停止到目标点
+    finish()立即所有的停止到目标点
+    delay() 延迟 参数是延迟的时间
+
+    delegate() 事件委托 事件添加到父级身上
+    undelegate() 取消事件委托
+    tigger() 主动触发
+    ev.data
+    ev.target 事件源
+    ev.type 事件类型
+
+
+
+    $下的常用方法 不仅可以给jQ用，也可以给元素JS用，统称为工具方法
+    type() 检测数据类型
+    trim() 去字符串首尾空格
+    inArray()  类似于indexOf
+    proxy()  改变this指向
+    noConflict()  避免类库冲突
+    parseJSON() json字符串转化为对象
+    makeArray() 类数组转化为数组
+
+
+
+    Ajax json形式的配置参数
+    url success
+    error contentType
+    data type
+    dataType cache timeout
+
+    抽象出来的方法
+    get()
+    post()
+    getJSON()
+
+
+    $.ajax({
+        url:
+        data:
+        type
+        success:function(){}
+        error:function(){}
+
+    });
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+</body>
+</html>

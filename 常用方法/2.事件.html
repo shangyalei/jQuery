@@ -1,0 +1,35 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+</head>
+<body>
+
+<div></div>
+
+<script src="../js/jquery-1.11.1.js"></script>
+
+<script>
+    //事件对象ev
+    //ev.pageX鼠标的坐标 相对于文档的  clientX(相对于可视区域)
+    //ev.which：ev.keyCode
+    //ev.preventDefault(); 阻止默认事件
+    //ev.stopPropagation(); 阻止冒泡
+
+    //在事件触发函数的的里面写上 return false;代表上面两句的意思
+    //one代表事件只执行一次
+
+    $('div').click(function(ev){
+    });
+
+    $('div').one('click',function(ev){
+    });
+
+
+</script>
+
+
+
+</body>
+</html>
